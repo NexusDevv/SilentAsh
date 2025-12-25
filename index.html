@@ -7,6 +7,110 @@
 <meta name="description" content="No BS dropshipping education. Learn from official sources, build real systems, escape the matrix with actual knowledge - by The Silent Ash" />
 
 <style>
+  /* =========================
+   MOBILE FIXES (CRITICAL)
+   ========================= */
+@media (max-width: 768px) {
+
+  /* Kill matrix background on mobile (performance + clarity) */
+  #matrix-bg {
+    display: none;
+  }
+
+  /* Layout becomes single column */
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sidebar becomes full-screen drawer */
+  aside {
+    width: 100%;
+    left: -100%;
+    padding: 24px 20px;
+  }
+
+  aside.open {
+    left: 0;
+  }
+
+  /* Bigger tap targets */
+  .nav a {
+    font-size: 15px;
+    padding: 14px 16px;
+  }
+
+  /* Reduce main padding */
+  main {
+    padding: 24px 16px;
+  }
+
+  /* Hero cleanup */
+  .hero {
+    padding: 28px 20px;
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+
+  .hero p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Remove scan animation on mobile */
+  .hero::before {
+    display: none;
+  }
+
+  /* Sections tighter */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
+
+  /* Cards: single column, cleaner */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card h3 {
+    font-size: 14px;
+  }
+
+  .card p {
+    font-size: 12px;
+  }
+
+  /* CTA buttons fit screen */
+  .cta-button {
+    width: 100%;
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  /* Video resize */
+  .video-wrapper iframe {
+    height: 220px;
+  }
+
+  /* Footer spacing */
+  footer {
+    padding: 24px 16px;
+  }
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 :root{
