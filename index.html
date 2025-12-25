@@ -1029,18 +1029,16 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ===== Nav link behavior ===== */
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
-      // Update active state
       navLinks.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
-
-      // Close mobile menu
       sidebar.classList.remove('open');
       document.body.classList.remove('menu-open');
     });
   });
 
-  /* ===== Matrix Rain (desktop only) ===== */
-  if (window.innerWidth <= 768) return;
+  /* ===== FIXED Matrix Rain - MOBILE DISABLED ===== */
+  // CRITICAL FIX: Stop ALL canvas code on mobile devices
+  if (window.innerWidth <= 768) return;  // ← ADD THIS LINE
 
   const canvas = document.getElementById('matrix-bg');
   if (!canvas) return;
@@ -1076,7 +1074,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startMatrix() {
     if (intervalId) clearInterval(intervalId);
-    intervalId = setInterval(drawMatrix, 30);
+    intervalId = setInterval(drawMatrix, 50);  // SLOWER: 50ms (was 30ms)
   }
 
   function stopMatrix() {
