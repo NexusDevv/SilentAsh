@@ -1018,7 +1018,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.querySelector('aside');
   const navLinks = document.querySelectorAll('.nav a');
 
-  // Toggle menu open/close
+  /* ===== Mobile menu toggle ===== */
   if (mobileToggle && sidebar) {
     mobileToggle.addEventListener('click', () => {
       sidebar.classList.toggle('open');
@@ -1026,15 +1026,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close menu when any link is clicked (fixes "stuck" issue)
+  /* ===== Nav link behavior ===== */
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
+      // Update active state
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+
+      // Close mobile menu
       sidebar.classList.remove('open');
       document.body.classList.remove('menu-open');
     });
   });
 
-  // ===== Matrix Rain Simulation (skip on mobile) =====
+  /* ===== Matrix Rain (desktop only) ===== */
   if (window.innerWidth <= 768) return;
 
   const canvas = document.getElementById('matrix-bg');
@@ -1056,14 +1061,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function drawMatrix() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.fillStyle = '#00FF41';
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
       const text = alphabet[Math.floor(Math.random() * alphabet.length)];
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
       if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
         drops[i] = 0;
       }
@@ -1085,14 +1088,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setCanvasSize();
   startMatrix();
-
   window.addEventListener('resize', setCanvasSize);
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopMatrix();
-    else startMatrix();
+    document.hidden ? stopMatrix() : startMatrix();
   });
 });
 </script>
-
 </body>
 </html>
