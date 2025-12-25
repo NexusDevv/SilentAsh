@@ -1036,9 +1036,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ===== FIXED Matrix Rain - MOBILE DISABLED ===== */
-  // CRITICAL FIX: Stop ALL canvas code on mobile devices
-  if (window.innerWidth <= 768) return;  // ← ADD THIS LINE
+  /* ===== FIXED Matrix Rain - MOBILE/TABLET DISABLED ===== */
+  // Anything up to 1024px wide = no Matrix code (phones + most tablets)
+  if (window.matchMedia('(max-width: 1024px)').matches) {
+    console.log('Matrix disabled on this device');
+    return;
+  }
 
   const canvas = document.getElementById('matrix-bg');
   if (!canvas) return;
@@ -1065,16 +1068,19 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < drops.length; i++) {
       const text = alphabet[Math.floor(Math.random() * alphabet.length)];
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
       if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
         drops[i] = 0;
       }
+
       drops[i]++;
     }
   }
 
   function startMatrix() {
     if (intervalId) clearInterval(intervalId);
-    intervalId = setInterval(drawMatrix, 50);  // SLOWER: 50ms (was 30ms)
+    // 50ms interval (≈20 FPS) is easier on CPU/GPU than 30ms
+    intervalId = setInterval(drawMatrix, 50);
   }
 
   function stopMatrix() {
@@ -1086,7 +1092,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setCanvasSize();
   startMatrix();
+
   window.addEventListener('resize', setCanvasSize);
+
   document.addEventListener('visibilitychange', () => {
     document.hidden ? stopMatrix() : startMatrix();
   });
