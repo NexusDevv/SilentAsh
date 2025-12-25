@@ -133,6 +133,25 @@ html,body{
   font-family:'Share Tech Mono',monospace;
   overflow-x:hidden;
 }
+/* ===== Mobile menu behavior fixes ===== */
+body.menu-open{
+  overflow: hidden; /* stop background scroll when menu open */
+}
+
+aside{
+  z-index: 2000; /* ensure sidebar is above main */
+}
+
+.mobile-toggle{
+  z-index: 3000; /* ensure button is above sidebar */
+}
+
+@media (max-width:768px){
+  aside{
+    width: 100%;
+    height: 100%;
+  }
+}
 
 /* Matrix Rain Background */
 #matrix-bg{
@@ -778,17 +797,18 @@ footer strong{
         <a href="https://www.youtube.com/@TheEcomKing" target="_blank" rel="noopener noreferrer">WATCH</a>
       </div>
 
-      <div class="card">
-  <span class="tag">STRATEGY</span>
-  <h3>ShipBob Fulfillment Learning Center</h3>
-  <p>
-    Practical education on order fulfillment, shipping strategy,
-    inventory management, and scaling ecommerce operations.
-  </p>
-  <a href="https://www.shipbob.com/resources/" target="_blank" rel="noopener noreferrer">LEARN</a>
-</div>
+        <div class="card">
+        <span class="tag">STRATEGY</span>
+        <h3>ShipBob Fulfillment Learning Center</h3>
+        <p>
+          Practical education on order fulfillment, shipping strategy,
+          inventory management, and scaling ecommerce operations.
+        </p>
+        <a href="https://www.shipbob.com/resources/" target="_blank" rel="noopener noreferrer">LEARN</a>
+      </div>
 
-  </section>
+    </div> <!-- ✅ CLOSE .grid -->
+  </section> <!-- ✅ CLOSE #dropshipping -->
 
   <!-- Shopify -->
   <section id="shopify" class="section">
@@ -996,14 +1016,31 @@ footer strong{
 document.addEventListener('DOMContentLoaded', () => {
   const mobileToggle = document.querySelector('.mobile-toggle');
   const sidebar = document.querySelector('aside');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  // Toggle menu open/close
   if (mobileToggle && sidebar) {
-    mobileToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+    mobileToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
+    });
   }
 
-  // Matrix Rain Simulation
-  const canvas = document.getElementById('matrix-bg');
-  const ctx = canvas.getContext('2d');
+  // Close menu when any link is clicked (fixes "stuck" issue)
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    });
+  });
 
+  // ===== Matrix Rain Simulation (skip on mobile) =====
+  if (window.innerWidth <= 768) return;
+
+  const canvas = document.getElementById('matrix-bg');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
   const fontSize = 16;
   let drops = [];
@@ -1012,7 +1049,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function setCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     const columns = Math.floor(canvas.width / fontSize);
     drops = Array(columns).fill(1);
   }
@@ -1057,5 +1093,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
 </body>
 </html>
